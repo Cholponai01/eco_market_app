@@ -2,16 +2,15 @@
 import 'package:flutter/material.dart';
 
 
-
 @RoutePage()
-class FruitsPage extends StatefulWidget {
-  const FruitsPage({super.key});
+class GreeneryPage extends StatefulWidget {
+  const GreeneryPage({super.key});
 
   @override
-  State<FruitsPage> createState() => _FruitsPageState();
+  State<GreeneryPage> createState() => _GreeneryPageState();
 }
 
-class _FruitsPageState extends State<FruitsPage> {
+class _GreeneryPageState extends State<GreeneryPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

@@ -23,7 +23,6 @@ dev_dependencies:
   auto_route_generator: ^7.3.2
   build_runner: ^2.4.7
 
-
 flutter:
 
   # The following line ensures that the Material Icons font is

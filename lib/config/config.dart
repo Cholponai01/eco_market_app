@@ -1,3 +1,3 @@
 export 'theme/theme.dart';
-export 'router/router.dart';
+export 'routes/app_router.dart';
 export 'theme/app_colors.dart';
