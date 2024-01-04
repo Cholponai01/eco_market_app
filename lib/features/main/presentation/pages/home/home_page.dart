@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:eco_market_app/config/config.dart';
 import 'package:flutter/material.dart';
-
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -19,27 +19,27 @@ class _HomePageState extends State<HomePage> {
     gridMenuItems = [
       GridMenuItem(
         image: "assets/images/main/fruits.png",
-        onTap: () {},
+        onTap: () => context.pushRoute(const FruitsRoute()),
       ),
       GridMenuItem(
-        image: "assets/images/main/driedFruits.png",
-        onTap: () {},
+        image: "assets/images/main/dried_fruits.png",
+        onTap: () => context.pushRoute(const DriedFruitsRoute()),
       ),
       GridMenuItem(
         image: "assets/images/main/vegetables.png",
-        onTap: () {},
+        onTap: () => context.pushRoute(const VegetablesRoute()),
       ),
       GridMenuItem(
         image: "assets/images/main/greenery.png",
-        onTap: () {},
+        onTap: () => context.pushRoute(const GreeneryRoute()),
       ),
       GridMenuItem(
-        image: "assets/images/main/teaCoffee.png",
-        onTap: () {},
+        image: "assets/images/main/tea_coffee.png",
+        onTap: () => context.pushRoute(const TeaCoffeeRoute()),
       ),
       GridMenuItem(
         image: "assets/images/main/lactic.png",
-        onTap: () {},
+        onTap: () => context.pushRoute(const LacticRoute()),
       ),
     ];
   }
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 16, top: 18, left: 16),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: gridMenuItems[index].onTap,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
