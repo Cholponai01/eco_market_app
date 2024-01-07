@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/config.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
+import 'package:eco_market_app/features/search/presentation/widgets/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -12,13 +13,67 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List<ProductsName> products = List.generate(7, (index) => ProductsName());
+  List<ProductDisplay> productsDisplay = [];
+  List<ShoppingCartItem> cartItems =
+      List.generate(8, (index) => ShoppingCartItem());
+   bool isAdded = false;
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    productsDisplay = [
+      ProductDisplay(
+        image: "assets/images/products/apple.png",
+        title: "Яблоко красная радуга сладкая",
+        price: "56 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/orange.png",
+        title: "Апельсины сладкий пакистанский",
+        price: "86 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/pitaya.png",
+        title: "Драконий фрукт",
+        price: "340 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/apple.png",
+        title: "Яблоко золотая радуга",
+        price: "56 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/pitaya.png",
+        title: "Драконий фрукт",
+        price: "340 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/apple.png",
+        title: "Яблоко золотая радуга",
+        price: "56 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/green_apple.png",
+        title: "Яблоко красная радуга сладкая",
+        price: "56 c",
+      ),
+      ProductDisplay(
+        image: "assets/images/products/apple.png",
+        title: "Яблоко красная радуга сладкая",
+        price: "56 c",
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Продукты"),
+          title: const Text("Продукты",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.only(right: 16, top: 12, left: 16),
@@ -51,8 +106,9 @@ class _SearchPageState extends State<SearchPage> {
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
+                      ProductsName product = products[index];
                       return GestureDetector(
-                          onTap: () {},
+                          onTap: () => _onTapSellected(index),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
@@ -68,7 +124,7 @@ class _SearchPageState extends State<SearchPage> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                               child: Text(
-                                "data",
+                                product.productsName[index],
                                 style: TextStyle(
                                   color: _currentIndex == index
                                       ? AppColors.white
@@ -97,6 +153,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     itemCount: 8,
                     itemBuilder: (context, index) {
+                      // ShoppingCartItem cartItem = cartItems[index];
                       return GestureDetector(
                         onTap: () {},
                         child: DecoratedBox(
@@ -111,23 +168,23 @@ class _SearchPageState extends State<SearchPage> {
                                 children: [
                                   Center(
                                     child: Image.asset(
-                                      "assets/images/product.png",
+                                      productsDisplay[index].image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                   const SizedBox(height: 4),
-                                  const Text(
-                                    "data",
-                                    style: TextStyle(
+                                  Text(
+                                    productsDisplay[index].title,
+                                    style: const TextStyle(
                                       color: AppColors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   const SizedBox(height: 24),
-                                  const Text(
-                                    "data",
-                                    style: TextStyle(
+                                  Text(
+                                    productsDisplay[index].price,
+                                    style: const TextStyle(
                                       color: AppColors.green,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
@@ -148,4 +205,117 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ));
   }
+
+  void _onTapSellected(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 }
+
+class ProductsName {
+  var productsName = <String>[
+    'Все',
+    'Фрукты',
+    'Сухофрукты',
+    'Овощи',
+    'Зелень',
+    'Чай кофе',
+    'Молочные продукты',
+  ];
+}
+
+class ProductDisplay {
+  final String image;
+  final String title;
+  final String price;
+
+  ProductDisplay(
+      {required this.image, required this.title, required this.price});
+}
+
+class ShoppingCartItem {
+  int _counter = 0;
+  void incrementCounter() {
+    _counter++;
+  }
+
+  decrementCounter() {
+    if (_counter > 0) _counter--;
+  }
+
+ int getCounter() {
+    return _counter;
+  }
+}
+
+showFruit(BuildContext context,ShoppingCartItem item) => showModalBottomSheet(
+  context: context, builder: (BuildContext context)=> StatefulBuilder(builder: (context,StateSetter setState)=> Padding(padding: EdgeInsets.only(left:16,top:16,right:16),
+child: Wrap(children: [Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [Image.asset("assets/images/products/apple.png",
+  fit:BoxFit.cover),
+  const SizedBox(height: 12),
+  const Text("data",
+  style:TextStyle(fontSize: 24,fontWeight: FontWeight.w700,),),
+   const SizedBox(height: 8),
+  const Text("56 c шт",
+  style:TextStyle(
+    color:AppColors.green,
+    fontSize: 24,fontWeight: FontWeight.w700,),),
+    const SizedBox(height: 8),
+  const Text("Cочный плод яблони, который употребляется в пищу в свежем и запеченном виде, служит сырьём в кулинарии и для приготовления напитков.",
+  style:TextStyle(
+    color:AppColors.darkGrey,
+    fontSize: 16,fontWeight: FontWeight.w400,),),
+  const SizedBox(height: 24),
+   isAdded
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                '112 с',
+                                style: TextStyle(
+                                  color: Color(0xFF1E1E1E),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButtonWidget(
+                                    icon: Icons.remove,
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          item.decrementCounter();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    width: 44,
+                                  ),
+                                  Text(
+                                    item.getCounter().toString(),
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 44,
+                                  ),
+                                  IconButtonWidget(
+                                      icon: Icons.add,
+                                      onTap: () {
+                                        setState(() {
+                                          item.incrementCounter();
+                                        });
+                                      })
+                                ],
+                              ),
+                            ],
+                          )],
+)
+]),)));

@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () {},
       ),
       GridMenuItem(
-        image: "assets/images/main/lactic.png",
+        image: "assets/images/main/dairy.png",
         title: "Молочные продукты",
         onTap: () {},
       ),
@@ -54,7 +54,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text("Эко Маркет")),
+          title: const Center(
+              child: Text("Эко Маркет",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700))),
         ),
         body: Padding(
           padding: const EdgeInsets.only(right: 16, top: 18, left: 16),
@@ -72,9 +74,11 @@ class _HomePageState extends State<HomePage> {
                 onTap: gridMenuItems[index].onTap,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                          image: AssetImage(gridMenuItems[index].image))),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: AssetImage(gridMenuItems[index].image),
+                        fit: BoxFit.cover),
+                  ),
                   child: Stack(children: [
                     SizedBox(
                       width: double.infinity,
