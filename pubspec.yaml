@@ -37,6 +37,9 @@ flutter:
   assets:
     - assets/images/main/.
     - assets/images/products/.
+    - assets/images/svg/main/.
+    - assets/images/network/.
+    - assets/images/svg/icons/.
   #   - images/a_dot_ham.jpeg
 
  
