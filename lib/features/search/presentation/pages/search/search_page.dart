@@ -3,6 +3,7 @@ import 'package:eco_market_app/config/config.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/icon_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
 class SearchPage extends StatefulWidget {
@@ -70,13 +71,14 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Продукты",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(right: 16, top: 12, left: 16),
+      appBar: AppBar(
+        title: const Text("Продукты",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(right: 16, top: 12, left: 16),
+        child: SafeArea(
           child: Column(
             children: [
               TextFormField(
@@ -205,7 +207,41 @@ class _SearchPageState extends State<SearchPage> {
               )
             ],
           ),
-        ));
+        ),
+      ),
+      floatingActionButton: GestureDetector(
+        onTap: () {},
+        child: SizedBox(
+          width: 168,
+          height: 48,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: AppColors.green,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/svg/main/bag.svg",
+                      color: AppColors.white,
+                    ),
+                    const Text(
+                      "Корзина 396 с",
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  ]),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _onTapSellected(int index) {
