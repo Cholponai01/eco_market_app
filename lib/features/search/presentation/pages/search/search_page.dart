@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/config.dart';
+import 'package:eco_market_app/features/main/presentation/widgets/shopping_cart_item.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/icon_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -364,19 +365,4 @@ class ProductDisplay {
 
   ProductDisplay(
       {required this.image, required this.title, required this.price});
-}
-
-class ShoppingCartItem {
-  int _counter = 0;
-  void incrementCounter() {
-    _counter++;
-  }
-
-  decrementCounter() {
-    if (_counter > 0) _counter--;
-  }
-
-  int getCounter() {
-    return _counter;
-  }
 }

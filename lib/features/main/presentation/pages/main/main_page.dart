@@ -23,7 +23,10 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: _currentIndex, keepPage: true);
+    pageController = PageController(
+      initialPage: _currentIndex,
+      keepPage: true,
+    );
   }
 
   @override
@@ -73,6 +76,7 @@ class _MainPageState extends State<MainPage> {
                     "assets/images/svg/main/home.svg",
                     width: 28,
                     height: 28,
+                    // ignore: deprecated_member_use
                     color:
                         _currentIndex == 0 ? AppColors.green : AppColors.grey,
                   ),
@@ -82,6 +86,7 @@ class _MainPageState extends State<MainPage> {
                     "assets/images/svg/main/bag.svg",
                     width: 28,
                     height: 28,
+                    // ignore: deprecated_member_use
                     color:
                         _currentIndex == 0 ? AppColors.green : AppColors.grey,
                   ),
@@ -91,6 +96,7 @@ class _MainPageState extends State<MainPage> {
                     "assets/images/svg/main/clock.svg",
                     width: 28,
                     height: 28,
+                    // ignore: deprecated_member_use
                     color:
                         _currentIndex == 0 ? AppColors.green : AppColors.grey,
                   ),
@@ -100,6 +106,7 @@ class _MainPageState extends State<MainPage> {
                     "assets/images/svg/main/info.svg",
                     width: 28,
                     height: 28,
+                    // ignore: deprecated_member_use
                     color:
                         _currentIndex == 0 ? AppColors.green : AppColors.grey,
                   ),
@@ -115,7 +122,7 @@ class _MainPageState extends State<MainPage> {
     });
     pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 10),
+      duration: const Duration(milliseconds: 7),
       curve: Curves.bounceIn,
     );
   }
