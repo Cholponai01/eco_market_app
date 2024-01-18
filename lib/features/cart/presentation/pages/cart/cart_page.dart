@@ -19,46 +19,46 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Очистить",
-                  style: TextStyle(
-                    color: AppColors.red,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+      title: Row(
+        children: [
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              "Очистить",
+              style: TextStyle(
+                color: AppColors.red,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
-              const SizedBox(width: 50),
-              const Text(
-                "Корзина",
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+            ),
           ),
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            ListView.separated(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  ShoppingCartItem item = cartItems[index];
+          const SizedBox(width: 50),
+          const Text(
+            "Корзина",
+            style: TextStyle(
+              color: AppColors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      centerTitle: true,
+    ));
+    // body: Column(
+    //   children: [
+    //     ListView.separated(
+    //         scrollDirection: Axis.vertical,
+    //         itemBuilder: (context, index) {
+    //           ShoppingCartItem item = cartItems[index];
 
-                  return ListTile();
-                },
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
-                    ),
-                itemCount: cartItems.length),
-          ],
-        ));
+    //           return ListTile();
+    //         },
+    //         separatorBuilder: (context, index) => const SizedBox(
+    //               height: 10,
+    //             ),
+    //         itemCount: cartItems.length),
+    //   ],
+    // ));
   }
 }
