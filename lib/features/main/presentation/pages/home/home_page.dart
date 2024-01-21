@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/config.dart';
+import 'package:eco_market_app/features/main/domain/entities/category_entity.dart';
+import 'package:eco_market_app/features/main/presentation/cubit/cubit/main_screen_cubit.dart';
+import 'package:eco_market_app/features/search/presentation/pages/pages.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -17,38 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    gridMenuItems = [
-      GridMenuItem(
-        image: "assets/images/main/fruits.png",
-        title: "Фрукты",
-        onTap: () => context.pushRoute(const SearchRoute()),
-      ),
-      GridMenuItem(
-        image: "assets/images/main/dried_fruits.png",
-        title: "Сухофрукты",
-        onTap: () {},
-      ),
-      GridMenuItem(
-        image: "assets/images/main/vegetables.png",
-        title: "Овощи",
-        onTap: () {},
-      ),
-      GridMenuItem(
-        image: "assets/images/main/greenery.png",
-        title: "Зелень",
-        onTap: () {},
-      ),
-      GridMenuItem(
-        image: "assets/images/main/tea_coffee.png",
-        title: "Чай и кофе",
-        onTap: () {},
-      ),
-      GridMenuItem(
-        image: "assets/images/main/dairy.png",
-        title: "Молочные продукты",
-        onTap: () {},
-      ),
-    ];
+    context.read<MainScreenCubit>().getCategorieas();
   }
 
   @override
@@ -59,66 +32,85 @@ class _HomePageState extends State<HomePage> {
             child: Text("Эко Маркет",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700))),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(right: 16, top: 18, left: 16),
-        child: GridView.builder(
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisExtent: 185.0,
-            crossAxisCount: 2,
-            mainAxisSpacing: 11.0,
-            crossAxisSpacing: 11.0,
-          ),
-          itemCount: gridMenuItems.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: gridMenuItems[index].onTap,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: AssetImage(gridMenuItems[index].image),
-                      fit: BoxFit.cover),
-                ),
-                child: Stack(children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: DecoratedBox(
-                        decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.black.withOpacity(0),
-                          AppColors.black
-                        ],
-                        begin: const Alignment(0.00, -1.00),
-                        end: const Alignment(0.00, 1.8),
-                      ),
-                    )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          gridMenuItems[index].title,
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.white,
-                              height: 0),
-                        ),
-                      ],
-                    ),
-                  )
-                ]),
-              ),
+      body: BlocBuilder<MainScreenCubit, MainScreenState>(
+        builder: (context, state) {
+          List<CategoryEntity> data = [];
+          if (state is MainScreenLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ),
+          } else if (state is MainScreenLoaded) {
+            data = state.categories;
+          }
+          return Padding(
+            padding: const EdgeInsets.only(right: 16, top: 18, left: 16),
+            child: GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 185.0,
+                crossAxisCount: 2,
+                mainAxisSpacing: 11.0,
+                crossAxisSpacing: 11.0,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    index == 0
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPage()))
+                        : null;
+                  },
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                          image: NetworkImage(data[index].image.toString()),
+                          fit: BoxFit.cover),
+                    ),
+                    child: Stack(children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: DecoratedBox(
+                            decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.black.withOpacity(0),
+                              AppColors.black
+                            ],
+                            begin: const Alignment(0.00, -1.00),
+                            end: const Alignment(0.00, 1.8),
+                          ),
+                        )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              data[index].name.toString(),
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.white,
+                                  height: 0),
+                            ),
+                          ],
+                        ),
+                      )
+                    ]),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

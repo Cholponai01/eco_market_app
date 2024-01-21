@@ -3,8 +3,11 @@ import 'package:eco_market_app/config/theme/app_colors.dart';
 import 'package:eco_market_app/features/cart/presentation/pages/pages.dart';
 import 'package:eco_market_app/features/history/presentation/pages/history/history_page.dart';
 import 'package:eco_market_app/features/info/presentation/pages/info/info_page.dart';
+import 'package:eco_market_app/features/main/presentation/cubit/cubit/main_screen_cubit.dart';
 import 'package:eco_market_app/features/main/presentation/pages/home/home_page.dart';
+import 'package:eco_market_app/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
@@ -31,20 +34,27 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: PageView(
-            controller: pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (value) {
-              _currentIndex = value;
-              setState(() {});
-            },
-            children: const [
-              HomePage(),
-              CartPage(),
-              HistoryPage(),
-              InfoPage(),
-            ]),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => sl<MainScreenCubit>(),
+          )
+        ],
+        child: SafeArea(
+          child: PageView(
+              controller: pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: (value) {
+                _currentIndex = value;
+                setState(() {});
+              },
+              children: const [
+                HomePage(),
+                CartPage(),
+                HistoryPage(),
+                InfoPage(),
+              ]),
+        ),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
