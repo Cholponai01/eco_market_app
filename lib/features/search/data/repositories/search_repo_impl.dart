@@ -2,10 +2,10 @@ import 'package:eco_market_app/features/search/data/data_sources/search_remote_d
 import 'package:eco_market_app/features/search/domain/entities/product_entity.dart';
 import 'package:eco_market_app/features/search/domain/repositories/search_repository.dart';
 
-class SerchrepoImpl implements SearchRepository {
+class SearchRepoImpl implements SearchRepository {
   final SearchRemoteDataSource _searchRemoteDataSource;
 
-  SerchrepoImpl(this._searchRemoteDataSource);
+  SearchRepoImpl(this._searchRemoteDataSource);
 
   @override
   Future<List<ProductEntity>> getProducts(

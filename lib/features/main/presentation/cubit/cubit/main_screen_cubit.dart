@@ -9,7 +9,7 @@ class MainScreenCubit extends Cubit<MainScreenState> {
   final MainRepository _mainRepository;
   MainScreenCubit(this._mainRepository) : super(MainScreenInitial());
 
-  getCategorieas() async {
+  getCategories() async {
     emit(MainScreenLoading());
     try {
       var list = await _mainRepository.getCategories();

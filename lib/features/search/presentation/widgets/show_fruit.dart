@@ -1,10 +1,12 @@
 import 'package:eco_market_app/config/theme/app_colors.dart';
 import 'package:eco_market_app/features/main/presentation/widgets/shopping_cart_item.dart';
+import 'package:eco_market_app/features/search/domain/entities/product_entity.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 
-showFruit(BuildContext context, ShoppingCartItem item, bool isAdded) =>
+showFruit(BuildContext context, ShoppingCartItem item, bool isAdded,
+        ProductEntity product) =>
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -23,30 +25,30 @@ showFruit(BuildContext context, ShoppingCartItem item, bool isAdded) =>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Image.asset("assets/images/products/apple.png",
+                          child: Image.network('${product.image}',
                               fit: BoxFit.cover),
                         ),
                         const SizedBox(height: 12),
-                        const Text(
-                          "Яблоко красная радуга сладкая",
-                          style: TextStyle(
+                        Text(
+                          '${product.title}',
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          "56 c шт",
-                          style: TextStyle(
+                        Text(
+                          "${product.price} c шт",
+                          style: const TextStyle(
                             color: AppColors.green,
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          "Cочный плод яблони, который употребляется в пищу в свежем и запеченном виде, служит сырьём в кулинарии и для приготовления напитков.",
-                          style: TextStyle(
+                        Text(
+                          '${product.description}',
+                          style: const TextStyle(
                             color: AppColors.darkGrey,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -58,9 +60,9 @@ showFruit(BuildContext context, ShoppingCartItem item, bool isAdded) =>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    "112 c",
-                                    style: TextStyle(
+                                  Text(
+                                    "${product.price} c",
+                                    style: const TextStyle(
                                         color: AppColors.black,
                                         fontSize: 24,
                                         fontWeight: FontWeight.w700),

@@ -35,11 +35,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => sl<MainScreenCubit>(),
-          )
-        ],
+        providers: [BlocProvider(create: (_) => sl<MainScreenCubit>())],
         child: SafeArea(
           child: PageView(
               controller: pageController,

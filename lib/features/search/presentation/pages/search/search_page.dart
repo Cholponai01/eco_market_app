@@ -1,73 +1,39 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/config.dart';
 import 'package:eco_market_app/features/main/presentation/widgets/shopping_cart_item.dart';
+import 'package:eco_market_app/features/search/domain/entities/product_entity.dart';
+import 'package:eco_market_app/features/search/presentation/cubit/cubit/search_screen_cubit.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
-import 'package:eco_market_app/features/search/presentation/widgets/products_name.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/show_fruit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final int id;
+  final List<String> fruits;
+  const SearchPage({super.key, required this.id, required this.fruits});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<ProductsName> products = List.generate(7, (index) => ProductsName());
-  List<ProductDisplay> productsDisplay = [];
   List<ShoppingCartItem> cartItems =
       List.generate(8, (index) => ShoppingCartItem());
+  List<String> fruits = [];
   bool isAdded = false;
   int _currentIndex = 0;
 
   @override
   void initState() {
+    _currentIndex = widget.id;
+    fruits = ['Все', ...widget.fruits];
+    context
+        .read<SearchScreenCubit>()
+        .getProducts(productType: fruits[_currentIndex]);
     super.initState();
-    productsDisplay = [
-      ProductDisplay(
-        image: "assets/images/products/apple.png",
-        title: "Яблоко красная радуга сладкая",
-        price: "56 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/orange.png",
-        title: "Апельсины сладкий пакистанский",
-        price: "86 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/pitaya.png",
-        title: "Драконий фрукт",
-        price: "340 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/apple.png",
-        title: "Яблоко золотая радуга",
-        price: "56 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/pitaya.png",
-        title: "Драконий фрукт",
-        price: "340 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/apple.png",
-        title: "Яблоко золотая радуга",
-        price: "56 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/green_apple.png",
-        title: "Яблоко красная радуга сладкая",
-        price: "56 c",
-      ),
-      ProductDisplay(
-        image: "assets/images/products/apple.png",
-        title: "Яблоко красная радуга сладкая",
-        price: "56 c",
-      ),
-    ];
   }
 
   @override
@@ -84,6 +50,16 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             children: [
               TextFormField(
+                onChanged: (value) {
+                  if (_currentIndex != 0) {
+                    context.read<SearchScreenCubit>().getProducts(
+                        search: value, productType: fruits[_currentIndex]);
+                  } else {
+                    context
+                        .read<SearchScreenCubit>()
+                        .getProducts(search: value);
+                  }
+                },
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(10.0),
                     constraints: const BoxConstraints(
@@ -109,9 +85,18 @@ class _SearchPageState extends State<SearchPage> {
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      ProductsName product = products[index];
+                      // ProductsName product = products[index];
                       return GestureDetector(
-                          onTap: () => _onTapSellected(index),
+                          onTap: () {
+                            _onTapSellected(index);
+                            if (index == 0) {
+                              context.read<SearchScreenCubit>().getProducts();
+                            } else {
+                              context
+                                  .read<SearchScreenCubit>()
+                                  .getProducts(productType: fruits[index]);
+                            }
+                          },
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
@@ -127,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                               child: Text(
-                                product.productsName[index],
+                                fruits[index],
                                 style: TextStyle(
                                   color: _currentIndex == index
                                       ? AppColors.white
@@ -142,69 +127,99 @@ class _SearchPageState extends State<SearchPage> {
                     separatorBuilder: (context, index) => const SizedBox(
                           width: 8,
                         ),
-                    itemCount: 7),
+                    itemCount: fruits.length),
               ),
               const SizedBox(height: 20),
-              Expanded(
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 11.0,
-                      mainAxisSpacing: 11.0,
-                      mainAxisExtent: 284,
-                    ),
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      ShoppingCartItem item = cartItems[index];
-                      return GestureDetector(
-                        onTap: () {},
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: AppColors.lightGrey,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Image.asset(
-                                      productsDisplay[index].image,
-                                      fit: BoxFit.cover,
+              BlocBuilder<SearchScreenCubit, SearchScreenState>(
+                builder: (context, state) {
+                  List<ProductEntity> data = [];
+                  if (state is SearchScreenLoading) {
+                    return const Expanded(child: CircularProgressIndicator());
+                  } else if (state is SearchScreenLoaded) {
+                    data = state.products;
+                  }
+                  return data.isEmpty
+                      ? Column(
+                          children: [
+                            SvgPicture.asset("assets/images/svg/cart/bag.svg"),
+                            const Text(
+                              "Ничего не найдено",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.darkGrey,
+                              ),
+                            )
+                          ],
+                        )
+                      : Expanded(
+                          child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 11.0,
+                                mainAxisSpacing: 11.0,
+                                mainAxisExtent: 284,
+                              ),
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                ShoppingCartItem item = cartItems[index];
+                                return GestureDetector(
+                                  onTap: () {},
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6.0),
+                                      color: AppColors.lightGrey,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.network(
+                                                data[index].image.toString(),
+                                                fit: BoxFit.cover,
+                                                height: 96,
+                                                width: 158,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              data[index].title.toString(),
+                                              style: const TextStyle(
+                                                color: AppColors.black,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                            Text(
+                                              ' ${data[index].price} с',
+                                              style: const TextStyle(
+                                                color: AppColors.green,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16),
+                                            CustomButtonWidget(
+                                                text: "Добавить",
+                                                height: 32,
+                                                onPressed: () {
+                                                  showFruit(context, item,
+                                                      isAdded, data[index]);
+                                                })
+                                          ]),
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    productsDisplay[index].title,
-                                    style: const TextStyle(
-                                      color: AppColors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 24),
-                                  Text(
-                                    productsDisplay[index].price,
-                                    style: const TextStyle(
-                                      color: AppColors.green,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  CustomButtonWidget(
-                                      text: "Добавить",
-                                      height: 32,
-                                      onPressed: () {
-                                        showFruit(context, item, isAdded);
-                                      })
-                                ]),
-                          ),
-                        ),
-                      );
-                    }),
+                                );
+                              }),
+                        );
+                },
               )
             ],
           ),

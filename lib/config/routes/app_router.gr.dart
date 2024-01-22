@@ -46,11 +46,16 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SearchRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SearchPage(),
+        child: SearchPage(
+          key: args.key,
+          id: args.id,
+          fruits: args.fruits,
+        ),
       );
-    }, 
+    },
   };
 }
 
@@ -126,14 +131,36 @@ class MainRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SearchPage]
-class SearchRoute extends PageRouteInfo<void> {
-  const SearchRoute({List<PageRouteInfo>? children})
-      : super(
+class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    required Key? key,
+    required int id,
+    required List<String> fruits,
+    List<PageRouteInfo>? children,
+  }) : super(
           SearchRoute.name,
+          args: SearchRouteArgs(
+            key: key,
+            id: id,
+            fruits: fruits,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SearchRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SearchRouteArgs> page = PageInfo<SearchRouteArgs>(name);
+}
+
+class SearchRouteArgs {
+  final Key? key;
+  final int id;
+  final List<String> fruits;
+
+  SearchRouteArgs({required this.key, required this.id, required this.fruits});
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs {key: $key, id: $id, fruits: _$fruits}';
+  }
 }

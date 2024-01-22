@@ -16,12 +16,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<GridMenuItem> gridMenuItems = [];
+  List<CategoryEntity> data = [];
+  List<String> fruits = [];
 
   @override
   void initState() {
     super.initState();
-    context.read<MainScreenCubit>().getCategorieas();
+    context.read<MainScreenCubit>().getCategories();
   }
 
   @override
@@ -34,13 +35,15 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<MainScreenCubit, MainScreenState>(
         builder: (context, state) {
-          List<CategoryEntity> data = [];
           if (state is MainScreenLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is MainScreenLoaded) {
             data = state.categories;
+            for (var item in data) {
+              fruits.add(item.name!);
+            }
           }
           return Padding(
             padding: const EdgeInsets.only(right: 16, top: 18, left: 16),
@@ -60,7 +63,10 @@ class _HomePageState extends State<HomePage> {
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchPage()))
+                                builder: (context) => SearchPage(
+                                      id: index + 1,
+                                      fruits: fruits,
+                                    )))
                         : null;
                   },
                   child: DecoratedBox(
@@ -115,6 +121,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // ignore: unused_element
   Future<void> _showNoConnectionDialog(BuildContext context) {
     return showDialog<void>(
         context: context,
