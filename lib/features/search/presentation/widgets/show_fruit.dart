@@ -87,7 +87,9 @@ showFruit(BuildContext context, ShoppingCartItem item, bool isAdded,
                                       IconButtonWidget(
                                           icon: Icons.add,
                                           onTap: () {
-                                            item.incrementCounter();
+                                            setState(() {
+                                              item.incrementCounter();
+                                            });
                                           })
                                     ],
                                   )
