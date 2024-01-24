@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CartPage(),
       );
     },
+    EmptyCartRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EmptyCartPage(),
+      );
+    },
     HistoryRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -43,6 +49,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MainPage(),
+      );
+    },
+    PlaceanOrderRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PlaceanOrderPage(),
       );
     },
     SearchRoute.name: (routeData) {
@@ -69,6 +81,20 @@ class CartRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CartRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EmptyCartPage]
+class EmptyCartRoute extends PageRouteInfo<void> {
+  const EmptyCartRoute({List<PageRouteInfo>? children})
+      : super(
+          EmptyCartRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyCartRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -130,10 +156,24 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PlaceanOrderPage]
+class PlaceanOrderRoute extends PageRouteInfo<void> {
+  const PlaceanOrderRoute({List<PageRouteInfo>? children})
+      : super(
+          PlaceanOrderRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PlaceanOrderRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SearchPage]
 class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
   SearchRoute({
-    required Key? key,
+    Key? key,
     required int id,
     required List<String> fruits,
     List<PageRouteInfo>? children,
@@ -153,14 +193,20 @@ class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
 }
 
 class SearchRouteArgs {
-  final Key? key;
-  final int id;
-  final List<String> fruits;
+  const SearchRouteArgs({
+    this.key,
+    required this.id,
+    required this.fruits,
+  });
 
-  SearchRouteArgs({required this.key, required this.id, required this.fruits});
+  final Key? key;
+
+  final int id;
+
+  final List<String> fruits;
 
   @override
   String toString() {
-    return 'SearchRouteArgs {key: $key, id: $id, fruits: _$fruits}';
+    return 'SearchRouteArgs{key: $key, id: $id, fruits: $fruits}';
   }
 }

@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/theme/app_colors.dart';
 import 'package:eco_market_app/features/cart/presentation/widgets/custom_text_field_widget.dart';
+import 'package:eco_market_app/features/cart/presentation/widgets/order_is_processed_dialog.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class PlaceanOrderPage extends StatefulWidget {
   const PlaceanOrderPage({super.key});
 
@@ -63,7 +66,7 @@ class _PlaceanOrderPageState extends State<PlaceanOrderPage> {
                 height: 16,
               ),
               CustomButtonWidget(
-                onPressed: () {},
+                onPressed: () => orderIsProcessedDialog(context),
                 height: 54,
                 text: 'Заказать доставку',
               )

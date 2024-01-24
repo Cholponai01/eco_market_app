@@ -1,4 +1,5 @@
-import 'package:eco_market_app/config/theme/app_colors.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:eco_market_app/config/config.dart';
 import 'package:eco_market_app/features/search/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,7 +35,7 @@ Future<void> orderDialog(BuildContext context) {
                   height: 24,
                 ),
                 CustomButtonWidget(
-                  onPressed: () {},
+                  onPressed: () => context.pushRoute(const PlaceanOrderRoute()),
                   text: 'Закрыть',
                   height: 54,
                 )
