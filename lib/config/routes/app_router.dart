@@ -3,6 +3,7 @@ import 'package:eco_market_app/features/cart/presentation/pages/cart/cart.dart';
 import 'package:eco_market_app/features/cart/presentation/pages/cart/cart_page.dart';
 import 'package:eco_market_app/features/cart/presentation/pages/cart/empty_cart_page.dart';
 import 'package:eco_market_app/features/history/presentation/pages/history/history_page.dart';
+import 'package:eco_market_app/features/history/presentation/pages/history/order_page.dart';
 import 'package:eco_market_app/features/info/presentation/pages/info/info_page.dart';
 import 'package:eco_market_app/features/main/presentation/pages/home/home_page.dart';
 import 'package:eco_market_app/features/main/presentation/pages/main/main_page.dart';
@@ -22,5 +23,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: InfoRoute.page),
         AutoRoute(page: PlaceanOrderRoute.page),
         AutoRoute(page: EmptyCartRoute.page),
+        AutoRoute(page: OrderRoute.page),
       ];
 }

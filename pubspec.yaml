@@ -40,6 +40,7 @@ flutter:
     - assets/images/network/.
     - assets/images/svg/icons/.
     - assets/images/svg/cart/.
+    - assets/images/history/.
   #   - images/a_dot_ham.jpeg
 
  

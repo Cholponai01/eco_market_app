@@ -1,3 +1,4 @@
+import 'package:eco_market_app/config/config.dart';
 import 'package:flutter/material.dart';
 
 Widget texts(String text, String price) {
@@ -7,7 +8,7 @@ Widget texts(String text, String price) {
       Text(
         text,
         style: const TextStyle(
-          color: Color(0xFFABABAD),
+          color: AppColors.darkGrey,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
