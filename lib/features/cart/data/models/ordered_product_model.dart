@@ -6,7 +6,6 @@ class OrderedProductModel {
     required this.product,
     required this.quantity,
   });
-
   factory OrderedProductModel.fromJson(Map<String, dynamic> json) =>
       OrderedProductModel(
         product: json["product"],

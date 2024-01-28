@@ -3,15 +3,15 @@ import 'package:eco_market_app/features/cart/domain/entities/order_entity.dart';
 
 class OrderModel extends OrderEntity {
   OrderModel({
-    super.orderNumber,
-    super.phoneNumber,
     super.address,
-    super.referencePoint,
     super.comments,
-    super.totalAmount,
     super.createdAt,
     super.deliveryCost,
+    super.orderNumber,
     super.orderedProducts,
+    super.phoneNumber,
+    super.referencePoint,
+    super.totalAmount,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
