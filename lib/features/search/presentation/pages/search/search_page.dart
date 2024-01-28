@@ -267,12 +267,3 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 }
-
-class ProductDisplay {
-  final String image;
-  final String title;
-  final String price;
-
-  ProductDisplay(
-      {required this.image, required this.title, required this.price});
-}
