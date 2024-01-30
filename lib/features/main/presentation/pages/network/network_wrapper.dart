@@ -3,23 +3,23 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eco_market_app/features/main/presentation/pages/network/no_connection_page.dart';
 import 'package:flutter/material.dart';
 
-class NetworkWrapper extends StatefulWidget {
-  final Widget child;
-  final bool? isFirstLaunch;
+class NetworkStatusWrapper extends StatefulWidget {
+  final Widget wrappedChild;
+  final bool? isAppFirstLaunch;
 
-  const NetworkWrapper({
+  const NetworkStatusWrapper({
     super.key,
-    required this.child,
-    this.isFirstLaunch = false,
+    required this.wrappedChild,
+    this.isAppFirstLaunch = false,
   });
 
   @override
-  State<NetworkWrapper> createState() => _NetworkWrapperState();
+  State<NetworkStatusWrapper> createState() => _NetworkStatusWrapperState();
 }
-
-class _NetworkWrapperState extends State<NetworkWrapper> {
-  StreamSubscription<ConnectivityResult>? subscription;
-  bool hasInternetConnection = true;
+ 
+class _NetworkStatusWrapperState extends State<NetworkStatusWrapper> {
+  StreamSubscription<ConnectivityResult>? connectionSubscription;
+  bool isInternetConnected = true;
 
   @override
   void initState() {
@@ -29,23 +29,23 @@ class _NetworkWrapperState extends State<NetworkWrapper> {
 
   @override
   void dispose() {
-    subscription?.cancel();
+    connectionSubscription?.cancel();
     super.dispose();
   }
 
   Future<void> checkInternetConnection() async {
-    subscription = Connectivity().onConnectivityChanged.listen(
+    connectionSubscription = Connectivity().onConnectivityChanged.listen(
       (ConnectivityResult result) {
         if (result == ConnectivityResult.none) {
           setState(
             () {
-              hasInternetConnection = false;
+              isInternetConnected = false;
             },
           );
         } else {
           setState(
             () {
-              hasInternetConnection = true;
+              isInternetConnected = true;
             },
           );
         }
@@ -55,6 +55,6 @@ class _NetworkWrapperState extends State<NetworkWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return hasInternetConnection ? widget.child : const NoConnectionPage();
+    return isInternetConnected ? widget.wrappedChild : const NoConnectionPage();
   }
 }

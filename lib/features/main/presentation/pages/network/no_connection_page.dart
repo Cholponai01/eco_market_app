@@ -37,7 +37,7 @@ class NoConnectionPage extends StatelessWidget {
                 'Попробуйте подключить мобильный интернет',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFFABABAD),
+                  color: AppColors.darkGrey,
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
