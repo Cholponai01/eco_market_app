@@ -33,7 +33,6 @@ Future<void> init() async {
       () => CartRemoteDataSourceImpl(sl()));
 
   sl.registerFactory(() => ConnectionCubit());
-  sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit());
 
   sl.registerLazySingleton(() => Dio());
 }
