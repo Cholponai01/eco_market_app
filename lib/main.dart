@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eco_market_app/config/routes/app_router.dart';
-import 'package:eco_market_app/config/theme/app_colors.dart';
 import 'package:eco_market_app/config/theme/theme.dart';
 import 'package:eco_market_app/features/cart/presentation/cubit/cubit/cart_screen_cubit.dart';
 import 'package:eco_market_app/features/main/presentation/cubit/cubit/connection/cubit/connection_cubit.dart';
@@ -15,7 +14,9 @@ import 'service_locator.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
   await di.init();
 
   runApp(const MyApp());

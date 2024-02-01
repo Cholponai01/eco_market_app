@@ -59,15 +59,13 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    index == 0
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchPage(
-                                      id: index + 1,
-                                      fruits: fruits,
-                                    )))
-                        : null;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchPage(
+                                  id: index + 1,
+                                  fruits: fruits,
+                                )));
                   },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
