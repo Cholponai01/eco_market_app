@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eco_market_app/config/config.dart';
 import 'package:eco_market_app/features/main/presentation/widgets/shopping_cart_item.dart';
 import 'package:eco_market_app/features/search/domain/entities/product_entity.dart';
@@ -67,7 +68,6 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     filled: true,
                     fillColor: AppColors.lightGrey,
-                    hintText: "Быстрый поиск",
                     hintStyle: const TextStyle(
                         color: AppColors.grey,
                         fontSize: 16,
@@ -180,8 +180,10 @@ class _SearchPageState extends State<SearchPage> {
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(12),
-                                              child: Image.network(
-                                                data[index].image.toString(),
+                                              child: CachedNetworkImage(
+                                                imageUrl: data[index]
+                                                    .image
+                                                    .toString(),
                                                 fit: BoxFit.cover,
                                                 height: 96,
                                                 width: 158,
